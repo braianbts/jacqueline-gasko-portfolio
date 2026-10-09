@@ -69,7 +69,7 @@ export function Hero() {
       <div className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(0deg,rgb(20_19_17_/_0.55)_0%,transparent_30%,transparent_80%,rgb(20_19_17_/_0.35)_100%)] lg:block" />
       <div className="dots-dark pointer-events-none absolute inset-0" />
 
-      <div className="relative z-10 mx-auto flex min-h-svh w-full max-w-[1600px] flex-col px-5 pt-20 pb-14 lg:block lg:px-[5vw] lg:pt-0 lg:pb-0">
+      <div className="relative z-10 mx-auto flex min-h-svh w-full max-w-[1600px] flex-col px-5 pt-20 pb-6 lg:block lg:px-[5vw] lg:pt-0 lg:pb-0">
         {/* nombre: arriba en mobile, a la izquierda de la persona en desktop */}
         <div className="parallax-1 lg:absolute lg:top-[24%] lg:left-[5vw]">
           <Eyebrow dark>Empresaria · Mentora de negocios · Speaker</Eyebrow>
@@ -91,23 +91,23 @@ export function Hero() {
 
         {/* bloque principal: abajo en mobile, a la derecha de la persona en desktop.
             El CTA invita a seguir bajando (no salta al contacto) */}
-        <div className="card-glass-dark parallax-2 relative mt-auto w-full max-w-md px-5 py-5 sm:p-6 lg:absolute lg:right-[6vw] lg:bottom-[16%] lg:mt-0 lg:w-[22rem] lg:p-7">
-          <h2 className="text-[1.7rem] leading-[1.1] tracking-[-0.02em] sm:text-3xl lg:text-[2.2rem]">
+        <div className="card-glass-dark parallax-2 relative mt-auto w-full max-w-md px-4 py-4 sm:p-6 lg:absolute lg:right-[6vw] lg:bottom-[16%] lg:mt-0 lg:w-[22rem] lg:p-7">
+          <h2 className="text-[1.35rem] leading-[1.1] tracking-[-0.02em] sm:text-3xl lg:text-[2.2rem]">
             <span className="block font-light text-white/80">De emprendedora</span>
             <span className="block font-semibold text-accent">a empresaria.</span>
           </h2>
-          <p className="mt-3 text-[13px] leading-relaxed font-light text-white/80 sm:text-sm lg:mt-4">
+          <p className="mt-3 hidden text-[13px] leading-relaxed font-light text-white/80 sm:block sm:text-sm lg:mt-4">
             Estrategia, mentalidad, marca y acción para transformar tu conocimiento en un negocio
             que crece.
           </p>
-          <div className="mt-5 lg:mt-6">
+          <div className="mt-3 sm:mt-5 lg:mt-6">
             <Button href="#servicios" arrow="down">
               Conocé cómo trabajo
             </Button>
           </div>
         </div>
 
-        <ScrollCue className="mt-5 self-center lg:absolute lg:bottom-14 lg:left-1/2 lg:mt-0 lg:-translate-x-1/2" />
+        <ScrollCue className="hidden lg:absolute lg:bottom-14 lg:flex lg:left-1/2 lg:mt-0 lg:-translate-x-1/2" />
       </div>
     </Section>
   );
@@ -552,7 +552,7 @@ export function CtaFinal() {
 /* pie: crédito del desarrollo, fijo abajo y siempre visible, en una franja glass clara */
 export function Footer() {
   return (
-    <footer className="fixed inset-x-0 bottom-0 z-40 flex h-(--footer-h) items-center justify-center border-t border-black/5 bg-paper/80 px-4 text-center text-[11px] leading-snug text-black backdrop-blur-md sm:text-[13px]">
+    <footer className="site-footer fixed inset-x-0 bottom-0 z-40 flex h-(--footer-h) items-center justify-center border-t border-black/5 bg-paper/80 px-4 text-center text-[9px] leading-tight text-black backdrop-blur-md sm:text-[13px] sm:leading-snug">
       Desarrollado por Braian Yamil Barrientos · Desarrollador de Software · MAT. 124335/A
     </footer>
   );

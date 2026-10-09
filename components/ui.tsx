@@ -83,7 +83,7 @@ export function ScrollCue({ className = "" }: { className?: string }) {
     <a
       href="#servicios"
       aria-label="Seguir bajando"
-      className={`flex flex-col items-center gap-2 text-[10px] tracking-[0.3em] text-white/70 uppercase transition hover:text-white ${className}`}
+      className={`flex-col items-center gap-2 text-[10px] tracking-[0.3em] text-white/70 uppercase transition hover:text-white ${className}`}
     >
       Deslizá
       <span className="relative block h-9 w-px overflow-hidden bg-white/25">

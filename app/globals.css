@@ -36,7 +36,7 @@ body {
    --frame-top deja la tarjeta oscura debajo del menú con la misma franja beige que a los costados */
 :root {
   --nav-h: 56px;
-  --footer-h: 44px; /* franja fija del crédito (dos líneas en mobile) */
+  --footer-h: 32px; /* franja fija del crédito (dos líneas chicas en mobile) */
   --frame: 4px;
   --radio: 20px; /* radio interior de las tarjetas oscuras */
   --frame-top: calc(var(--nav-h) + var(--frame));
@@ -393,4 +393,18 @@ html[data-hero] .site-nav {
 html[data-hero] .site-nav .nav-cta {
   opacity: 0;
   pointer-events: none;
+}
+
+/* crédito fijo: en mobile no aparece sobre el hero; entra desde abajo a partir de la
+   segunda sección (data-hero lo maneja components/HeroNavState.tsx) */
+.site-footer {
+  transition: transform 0.45s ease, opacity 0.45s ease;
+}
+
+@media (max-width: 767px) {
+  html[data-hero] .site-footer {
+    transform: translateY(100%);
+    opacity: 0;
+    pointer-events: none;
+  }
 }

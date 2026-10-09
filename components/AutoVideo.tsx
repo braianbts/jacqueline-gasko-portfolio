@@ -2,7 +2,11 @@
 
 import { useEffect, useRef } from "react";
 
-/* video mudo en loop que solo se reproduce mientras está en pantalla */
+/* video mudo en loop pensado para cargar rápido:
+   - al abrir la página no descarga nada (solo se ve el poster)
+   - cuando está a una pantalla de distancia empieza a descargarse, así al llegar ya está listo
+   - se reproduce solo mientras está en pantalla
+   Los videos ocultos (por ejemplo la versión mobile en desktop) nunca se descargan */
 export function AutoVideo({
   src,
   poster,
@@ -20,9 +24,23 @@ export function AutoVideo({
     const video = ref.current;
     if (!video) return;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // precarga anticipada: una pantalla antes de aparecer
+    const precarga = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        video.preload = "auto";
+        video.load();
+        precarga.disconnect();
+      },
+      { rootMargin: "100% 0px" },
+    );
+    precarga.observe(video);
 
-    const observer = new IntersectionObserver(
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return () => precarga.disconnect();
+    }
+
+    const reproduccion = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           video.play().catch(() => {});
@@ -32,8 +50,12 @@ export function AutoVideo({
       },
       { threshold: 0.25 },
     );
-    observer.observe(video);
-    return () => observer.disconnect();
+    reproduccion.observe(video);
+
+    return () => {
+      precarga.disconnect();
+      reproduccion.disconnect();
+    };
   }, []);
 
   return (
@@ -45,7 +67,7 @@ export function AutoVideo({
       muted
       loop
       playsInline
-      preload="metadata"
+      preload="none"
       className={className}
     />
   );
