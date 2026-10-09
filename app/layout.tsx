@@ -1,37 +1,61 @@
 import type { Metadata } from "next";
-import { Mrs_Saint_Delafield, Playfair_Display, Poppins } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
-
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  style: ["normal", "italic"],
-});
 
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
-const script = Mrs_Saint_Delafield({
-  variable: "--font-mrs",
-  subsets: ["latin"],
-  weight: "400",
-});
+const siteUrl = "https://jacquelinegaskopmu.vercel.app";
+const title = "Shake Gasko Oriz | Empresaria · Mentora de negocios · Speaker";
+const description =
+  "De emprendedora a empresaria. Clarity Session con Shake, el programa AUGE y conferencias para transformar tu conocimiento en un negocio que crece, con estrategia, mentalidad, marca y acción.";
 
 export const metadata: Metadata = {
-  title: "Shake Gasko Oriz | Empresaria · Mentora de negocios · Speaker",
-  description:
-    "Estrategia, mentalidad, marca y acción para transformar tu conocimiento en un negocio que crece.",
+  metadataBase: new URL(siteUrl),
+  title,
+  description,
+  keywords: [
+    "Shake Gasko Oriz",
+    "mentora de negocios",
+    "Clarity Session",
+    "mentoría estratégica",
+    "mentoría para emprendedores",
+    "speaker",
+    "conferencias de negocios",
+    "programa AUGE",
+    "estrategia de negocios",
+    "emprendedora a empresaria",
+    "Casa Shake",
+    "Argentina",
+  ],
+  authors: [{ name: "Jacqueline Shake Gasko Oriz" }],
+  alternates: { canonical: "/" },
+  robots: { index: true, follow: true },
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: "Shake Gasko Oriz",
+    locale: "es_AR",
+    title,
+    description:
+      "Estrategia, mentalidad, marca y acción para transformar tu conocimiento en un negocio que crece.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description:
+      "Estrategia, mentalidad, marca y acción para transformar tu conocimiento en un negocio que crece.",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="es"
-      className={`${playfair.variable} ${poppins.variable} ${script.variable} antialiased`}
+      className={`${poppins.variable} antialiased`}
     >
       <body>{children}</body>
     </html>

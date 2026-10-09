@@ -19,29 +19,16 @@ export function Section({
   );
 }
 
-export function Eyebrow({ n, children }: { n: number; children: ReactNode }) {
-  return (
-    <div className="flex items-center gap-3 text-gold">
-      <span className="font-serif text-lg font-medium">{String(n).padStart(2, "0")}</span>
-      <span className="h-px w-8 bg-gold/50" />
-      <span className="text-[11px] font-medium tracking-[0.28em] uppercase">{children}</span>
-    </div>
-  );
-}
-
-export function Placeholder({ label, className = "" }: { label: string; className?: string }) {
+/* etiqueta de sección: cuadradito amarillo + texto */
+export function Eyebrow({ children, dark = false }: { children: ReactNode; dark?: boolean }) {
   return (
     <div
-      className={`grid place-items-center overflow-hidden bg-[radial-gradient(ellipse_at_35%_30%,#f7f5f0_0%,#e6e1d6_100%)] text-gold-dark/60 ${className}`}
+      className={`flex items-center gap-2.5 text-[11px] font-medium tracking-[0.14em] uppercase ${
+        dark ? "text-white/85" : "text-ink/80"
+      }`}
     >
-      <div className="flex flex-col items-center gap-2 px-4 text-center">
-        <svg viewBox="0 0 24 24" className="size-7" fill="none" stroke="currentColor" strokeWidth="1.2">
-          <rect x="3" y="4" width="18" height="16" rx="2" />
-          <circle cx="9" cy="10" r="2" />
-          <path d="m21 16-5-5-8 9" />
-        </svg>
-        <span className="text-[10px] font-medium tracking-[0.2em] uppercase">{label}</span>
-      </div>
+      <span className="size-2 shrink-0 bg-accent" />
+      {children}
     </div>
   );
 }
@@ -54,25 +41,34 @@ export function Arrow({ className = "" }: { className?: string }) {
   );
 }
 
-export function GoldButton({
+/* link externo (WhatsApp, AUGE): abre en otra pestaña */
+export const isExternal = (href: string) => href.startsWith("http");
+
+export function Button({
   href,
   children,
   arrow = "right",
 }: {
   href: string;
   children: ReactNode;
-  arrow?: "right" | "down";
+  arrow?: "right" | "down" | "out";
 }) {
+  const external = isExternal(href);
   return (
     <a
       href={href}
-      className="btn-gold group inline-flex items-center gap-4 rounded-full py-2 pr-2 pl-6 text-sm font-medium tracking-wide"
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      className="btn-accent group inline-flex items-center gap-4 rounded-full py-2 pr-2 pl-6 text-sm font-semibold"
     >
       {children}
-      <span className="grid size-8 shrink-0 place-items-center rounded-full bg-white text-gold-dark">
+      <span className="grid size-8 shrink-0 place-items-center rounded-full bg-ink text-accent">
         <Arrow
           className={`size-4 transition ${
-            arrow === "down" ? "rotate-90 group-hover:translate-y-0.5" : "group-hover:translate-x-0.5"
+            arrow === "down"
+              ? "rotate-90 group-hover:translate-y-0.5"
+              : arrow === "out"
+                ? "-rotate-45 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                : "group-hover:translate-x-0.5"
           }`}
         />
       </span>
@@ -90,7 +86,7 @@ export function ScrollCue({ className = "" }: { className?: string }) {
     >
       Deslizá
       <span className="relative block h-9 w-px overflow-hidden bg-white/25">
-        <span className="scroll-cue-dot absolute left-0 h-3 w-px bg-gold-light" />
+        <span className="scroll-cue-dot absolute left-0 h-3 w-px bg-accent" />
       </span>
     </a>
   );
@@ -152,7 +148,7 @@ export function Icon({ name, className = "" }: { name: IconName; className?: str
 export function IconTile({ name, className = "" }: { name: IconName; className?: string }) {
   return (
     <span
-      className={`grid size-11 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-gold-light to-gold text-white shadow-[0_6px_14px_-6px_rgb(143_122_67_/_0.8)] ${className}`}
+      className={`grid size-11 shrink-0 place-items-center rounded-xl bg-accent text-ink ${className}`}
     >
       <Icon name={name} className="size-6" />
     </span>

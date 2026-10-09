@@ -3,18 +3,23 @@ import { AutoVideo } from "./AutoVideo";
 
 import {
   Arrow,
+  Button,
   Eyebrow,
-  GoldButton,
   Icon,
   IconTile,
   ScrollCue,
   Section,
+  isExternal,
   type IconName,
 } from "./ui";
 
 const container = "mx-auto w-full max-w-6xl px-5 md:px-8";
 
-/* Menú superior */
+/* WhatsApp de Shake (formato internacional para celulares de Argentina: 54 9 + área + número) */
+const whatsapp = (mensaje: string) =>
+  `https://wa.me/5493484670258?text=${encodeURIComponent(mensaje)}`;
+
+/* Menú superior: barra oscura flotante que acompaña el marco de las secciones */
 const links = [
   { href: "#servicios", label: "Servicios" },
   { href: "#metodo", label: "Método" },
@@ -24,19 +29,25 @@ const links = [
 
 export function Nav() {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/15 bg-white/10 backdrop-blur-xl">
-      <div className={`${container} flex h-16 items-center justify-between`}>
-        <a href="#inicio" className="font-serif text-sm font-semibold tracking-[0.2em] text-gold">
-          SHAKE GASKO ORIZ
+    <header className="fixed inset-x-3 top-3 z-50 rounded-2xl border border-white/10 bg-ink/70 backdrop-blur-xl md:inset-x-5 md:top-4">
+      <div className="flex h-14 items-center justify-between px-4 md:px-6">
+        <a href="#inicio" className="flex items-center gap-2 text-sm font-semibold tracking-tight text-white">
+          <span className="size-2 bg-accent" />
+          Shake Gasko Oriz
         </a>
-        <nav className="hidden items-center gap-9 text-xs font-medium text-gold md:flex">
+        <nav className="hidden items-center gap-8 text-xs text-white/70 md:flex">
           {links.map((l) => (
-            <a key={l.href} href={l.href} className="transition hover:text-gold-light">
+            <a key={l.href} href={l.href} className="transition hover:text-white">
               {l.label}
             </a>
           ))}
         </nav>
-        <a href="#contacto" className="btn-gold rounded-full px-5 py-2 text-xs font-medium">
+        <a
+          href={whatsapp("Hola Shake, quiero hacerte una consulta.")}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-accent rounded-full px-4 py-2 text-xs font-semibold"
+        >
           Contacto
         </a>
       </div>
@@ -47,7 +58,7 @@ export function Nav() {
 /* 1 · Hero / Portada — foto a pantalla completa con la persona al centro y los textos alrededor */
 export function Hero() {
   return (
-    <Section id="inicio" className="bg-ink text-white">
+    <Section id="inicio" className="frame bg-ink text-white">
       {/* foto: en mobile arranca más abajo para dejar lugar al nombre arriba */}
       <div className="absolute inset-x-0 top-[14%] bottom-0 lg:inset-0">
         <Image
@@ -63,40 +74,24 @@ export function Hero() {
       </div>
 
       {/* velos para que se lea el texto sin tapar a la persona */}
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,#1f1d1a_0%,#1f1d1a_14%,rgb(31_29_26_/_0.35)_26%,transparent_42%,transparent_55%,rgb(31_29_26_/_0.85)_80%,#1f1d1a_100%)] lg:hidden" />
-      <div className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(90deg,rgb(31_29_26_/_0.82)_0%,rgb(31_29_26_/_0.55)_25%,transparent_42%,transparent_62%,rgb(31_29_26_/_0.5)_78%,rgb(31_29_26_/_0.8)_100%)] lg:block" />
-      <div className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(0deg,rgb(31_29_26_/_0.55)_0%,transparent_30%,transparent_80%,rgb(31_29_26_/_0.35)_100%)] lg:block" />
-      {/* trama de puntos oscuros muy sutil sobre la foto, da profundidad */}
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,#141311_0%,#141311_14%,rgb(20_19_17_/_0.35)_26%,transparent_42%,transparent_55%,rgb(20_19_17_/_0.85)_80%,#141311_100%)] lg:hidden" />
+      <div className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(90deg,rgb(20_19_17_/_0.82)_0%,rgb(20_19_17_/_0.55)_25%,transparent_42%,transparent_62%,rgb(20_19_17_/_0.5)_78%,rgb(20_19_17_/_0.8)_100%)] lg:block" />
+      <div className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(0deg,rgb(20_19_17_/_0.55)_0%,transparent_30%,transparent_80%,rgb(20_19_17_/_0.35)_100%)] lg:block" />
       <div className="dots-dark pointer-events-none absolute inset-0" />
 
-      <div className="relative z-10 mx-auto flex min-h-svh w-full max-w-[1600px] flex-col px-5 pt-24 pb-6 lg:block lg:px-[5vw] lg:pt-0 lg:pb-0">
+      <div className="relative z-10 mx-auto flex min-h-[calc(100svh-8px)] w-full max-w-[1600px] flex-col px-5 pt-24 pb-6 md:min-h-[calc(100svh-14px)] lg:block lg:px-[5vw] lg:pt-0 lg:pb-0">
         {/* nombre: arriba en mobile, a la izquierda de la persona en desktop */}
         <div className="lg:absolute lg:top-[24%] lg:left-[5vw]">
-          <p className="text-[9px] tracking-[0.22em] whitespace-nowrap text-gold-light uppercase sm:text-[10px] lg:text-xs lg:tracking-[0.3em]">
-            Empresaria · Mentora de negocios · Speaker
-          </p>
-          <h1 className="mt-3 font-serif text-[2.6rem] leading-[0.9] font-medium tracking-[0.02em] sm:text-6xl lg:text-[clamp(3.5rem,6vw,7.5rem)]">
-            SHAKE
-            <br />
-            <span className="text-gold-light">GASKO</span> ORIZ
+          <Eyebrow dark>Empresaria · Mentora de negocios · Speaker</Eyebrow>
+          <h1 className="mt-4 text-[2.7rem] leading-[0.95] tracking-[-0.03em] sm:text-6xl lg:text-[clamp(3rem,4.8vw,6rem)]">
+            <span className="block font-semibold">Shake</span>
+            <span className="block font-light text-white/75">Gasko Oriz</span>
           </h1>
-          <span className="mt-6 hidden h-px w-24 bg-gold-light/70 lg:block" />
-        </div>
-
-        {/* manuscrito flotando junto a la cabeza */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute top-[37%] right-3 -rotate-12 font-script text-[1.6rem] leading-[1.05] text-white/90 drop-shadow-[0_2px_10px_rgb(0_0_0_/_0.5)] sm:right-[8%] sm:text-4xl lg:top-[14%] lg:right-auto lg:left-[61%] lg:text-5xl"
-        >
-          <p>Estrategia</p>
-          <p className="pl-3 lg:pl-5">Personas</p>
-          <p className="pl-6 lg:pl-10">Negocios</p>
-          <p className="pl-9 lg:pl-14">Libertad</p>
         </div>
 
         {/* etiqueta flotante junto a la mano (desde tablet) */}
-        <div className="absolute top-[58%] left-[6%] hidden items-center gap-3 rounded-xl border border-white/40 bg-white/20 py-2 pr-2 pl-4 shadow-[0_12px_30px_-14px_rgb(0_0_0_/_0.5)] backdrop-blur-md sm:flex lg:top-[56%] lg:left-[27%]">
-          <p className="text-[11px] leading-tight text-white/85">
+        <div className="absolute top-[58%] left-[6%] hidden items-center gap-3 rounded-xl border border-white/30 bg-white/15 py-2 pr-2 pl-4 shadow-[0_12px_30px_-14px_rgb(0_0_0_/_0.5)] backdrop-blur-md sm:flex lg:top-[56%] lg:left-[27%]">
+          <p className="text-[11px] leading-tight font-light text-white/85">
             Conocimiento en negocios
             <br />
             <strong className="font-semibold text-white">que genera resultados</strong>
@@ -105,20 +100,20 @@ export function Hero() {
         </div>
 
         {/* bloque principal: abajo en mobile, a la derecha de la persona en desktop.
-            El CTA invita a seguir bajando (no salta al formulario) */}
-        <div className="card-glass-dark relative mt-auto w-full max-w-md px-5 py-5 sm:p-6 lg:absolute lg:right-[5vw] lg:bottom-[14%] lg:mt-0 lg:w-[min(30vw,26rem)] lg:p-8">
-          <h2 className="font-serif text-[1.75rem] leading-[1.05] text-gold-light sm:text-3xl lg:text-5xl">
-            De emprendedora
-            <br />a empresaria.
+            El CTA invita a seguir bajando (no salta al contacto) */}
+        <div className="card-glass-dark relative mt-auto w-full max-w-md px-5 py-5 sm:p-6 lg:absolute lg:right-[6vw] lg:bottom-[16%] lg:mt-0 lg:w-[clamp(20rem,26vw,22rem)] lg:p-7">
+          <h2 className="text-[1.7rem] leading-[1.1] tracking-[-0.02em] sm:text-3xl lg:text-[2.2rem]">
+            <span className="block font-light text-white/80">De emprendedora</span>
+            <span className="block font-semibold text-accent">a empresaria.</span>
           </h2>
-          <p className="mt-3 text-[13px] leading-relaxed text-white/85 sm:text-sm lg:mt-4">
+          <p className="mt-3 text-[13px] leading-relaxed font-light text-white/80 sm:text-sm lg:mt-4">
             Estrategia, mentalidad, marca y acción para transformar tu conocimiento en un negocio
             que crece.
           </p>
           <div className="mt-5 lg:mt-6">
-            <GoldButton href="#servicios" arrow="down">
+            <Button href="#servicios" arrow="down">
               Conocé cómo trabajo
-            </GoldButton>
+            </Button>
           </div>
         </div>
 
@@ -132,9 +127,10 @@ export function Hero() {
 type Forma = {
   icon: IconName;
   title: string;
+  subtitle: string;
   text: string;
   href: string;
-  external?: boolean;
+  linkLabel: string;
   video: { src: string; poster: string; label: string };
 };
 
@@ -142,8 +138,10 @@ const formas: Forma[] = [
   {
     icon: "mic",
     title: "Speaker",
+    subtitle: "Conferencias y eventos",
     text: "Conferencias, eventos, capacitaciones y experiencias para movilizar personas, equipos y emprendedores hacia la acción.",
-    href: "#contacto",
+    href: whatsapp("Hola Shake, quiero consultar por una conferencia o evento."),
+    linkLabel: "Consultar",
     video: {
       src: "/images/speaker.mp4",
       poster: "/images/speaker-poster.jpg",
@@ -152,9 +150,11 @@ const formas: Forma[] = [
   },
   {
     icon: "people",
-    title: "Mentoría estratégica 1:1",
+    title: "Clarity Session con Shake",
+    subtitle: "Mentoría 1:1",
     text: "Diagnóstico, claridad, destrabe y pasos concretos para accionar, ordenar y crecer.",
-    href: "#contacto",
+    href: whatsapp("Hola Shake, quiero agendar una Clarity Session."),
+    linkLabel: "Agendar",
     video: {
       src: "/images/mentoria.mp4",
       poster: "/images/mentoria-poster.jpg",
@@ -164,9 +164,10 @@ const formas: Forma[] = [
   {
     icon: "chart",
     title: "AUGE",
+    subtitle: "Programa de crecimiento",
     text: "Programa de crecimiento para profesionales y emprendedores que quieren construir un negocio con estrategia, posicionamiento y visión empresarial.",
     href: "https://www.augeprograma.com.ar",
-    external: true,
+    linkLabel: "Conocé AUGE",
     video: {
       src: "/images/auge.mp4",
       poster: "/images/auge-poster.jpg",
@@ -177,31 +178,25 @@ const formas: Forma[] = [
 
 function FormaLinkLabel({ forma, className = "" }: { forma: Forma; className?: string }) {
   return (
-    <span className={`flex items-center gap-2 text-xs font-medium ${className}`}>
-      {forma.external ? "Conocé AUGE" : "Consultar"}
-      <Arrow
-        className={`size-5 transition ${
-          forma.external
-            ? "-rotate-45 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-            : "group-hover:translate-x-1"
-        }`}
-      />
+    <span className={`flex items-center gap-2 text-xs font-semibold ${className}`}>
+      {forma.linkLabel}
+      <Arrow className="size-5 -rotate-45 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
     </span>
   );
 }
 
 const linkProps = (f: Forma) => ({
   href: f.href,
-  ...(f.external ? { target: "_blank", rel: "noopener noreferrer" } : {}),
+  ...(isExternal(f.href) ? { target: "_blank", rel: "noopener noreferrer" } : {}),
 });
 
 export function Formas() {
   return (
-    <Section id="servicios" className="bg-glow lg:bg-ink-gradient">
+    <Section id="servicios" className="bg-cream-gradient lg:frame lg:bg-ink-gradient">
       {/* mobile y tablet: tarjetas glass apiladas / en fila */}
       <div
         aria-hidden
-        className="text-outline pointer-events-none absolute top-1/2 -left-10 -translate-y-1/2 font-serif text-[18vw] leading-[0.85] font-semibold select-none lg:hidden"
+        className="text-outline pointer-events-none absolute top-1/2 -left-10 -translate-y-1/2 text-[18vw] leading-[0.85] font-bold select-none lg:hidden"
       >
         SHAKE
         <br />
@@ -210,13 +205,17 @@ export function Formas() {
 
       <div className={`${container} relative py-20 lg:hidden`}>
         <div className="flex flex-col items-center text-center">
-          <Eyebrow n={2}>Tres formas de trabajar con Shake</Eyebrow>
+          <Eyebrow>Servicios</Eyebrow>
+          <h2 className="mt-4 text-3xl leading-tight tracking-[-0.02em] sm:text-4xl">
+            <span className="font-semibold">Tres formas</span>{" "}
+            <span className="font-light text-soft">de trabajar con Shake</span>
+          </h2>
         </div>
 
         <div className="mx-auto mt-10 grid max-w-sm gap-8 md:max-w-none md:grid-cols-3">
           {formas.map((f) => (
             <a key={f.title} {...linkProps(f)} className="card-glass group flex flex-col">
-              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-t-[18px]">
+              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-t-[20px]">
                 <AutoVideo
                   src={f.video.src}
                   poster={f.video.poster}
@@ -225,16 +224,21 @@ export function Formas() {
                 />
               </div>
               <div className="flex flex-1 flex-col px-6 pt-6 pb-5">
-                <IconTile name={f.icon} className="relative z-10 -mt-12 mb-4 ring-4 ring-white" />
-                <h3 className="font-serif text-2xl text-ink">{f.title}</h3>
-                <p className="mt-2 text-[13px] leading-relaxed text-muted">{f.text}</p>
-                <FormaLinkLabel forma={f} className="mt-auto justify-end pt-4 text-gold" />
+                <IconTile name={f.icon} className="relative z-10 -mt-12 mb-4 ring-4 ring-paper" />
+                <h3 className="text-xl leading-tight font-semibold tracking-[-0.01em] text-ink">
+                  {f.title}
+                </h3>
+                <p className="mt-1 text-[11px] font-medium tracking-[0.14em] text-accent-dark uppercase">
+                  {f.subtitle}
+                </p>
+                <p className="mt-3 text-[13px] leading-relaxed font-light text-muted">{f.text}</p>
+                <FormaLinkLabel forma={f} className="mt-auto justify-end pt-4 text-ink" />
               </div>
             </a>
           ))}
         </div>
 
-        <p className="mt-10 text-center text-xs tracking-[0.2em] text-gold-dark uppercase">
+        <p className="mt-10 text-center text-[11px] font-medium tracking-[0.14em] text-muted uppercase">
           Mentalidad · Marca · Estrategia · Ventas · Crecimiento
         </p>
       </div>
@@ -256,26 +260,31 @@ export function Formas() {
               className="absolute inset-0 size-full object-cover transition duration-[1.2s] ease-out group-hover:scale-105"
             />
             {/* velo: oscuro abajo para la info, suave arriba para el título */}
-            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(0deg,rgb(31_29_26_/_0.95)_0%,rgb(31_29_26_/_0.7)_30%,rgb(31_29_26_/_0.1)_58%,rgb(31_29_26_/_0.55)_100%)] transition duration-700 group-hover:opacity-85" />
+            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(0deg,rgb(20_19_17_/_0.95)_0%,rgb(20_19_17_/_0.7)_30%,rgb(20_19_17_/_0.1)_58%,rgb(20_19_17_/_0.55)_100%)] transition duration-700 group-hover:opacity-85" />
 
             <div className="relative px-[clamp(1.5rem,3vw,3.5rem)] pb-[clamp(2rem,6vh,4.5rem)]">
               <IconTile name={f.icon} className="mb-5" />
-              <h3 className="font-serif text-[clamp(2rem,2.6vw,3rem)] leading-[1.05] text-white">
+              <h3 className="text-[clamp(1.7rem,2.2vw,2.6rem)] leading-[1.05] font-semibold tracking-[-0.02em] text-white">
                 {f.title}
               </h3>
-              <span className="mt-4 block h-px w-12 bg-gold-light/70 transition-all duration-500 group-hover:w-24" />
-              <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/80">{f.text}</p>
-              <FormaLinkLabel forma={f} className="mt-6 text-gold-light" />
+              <p className="mt-2 text-[11px] font-medium tracking-[0.14em] text-accent uppercase">
+                {f.subtitle}
+              </p>
+              <span className="mt-4 block h-px w-12 bg-white/40 transition-all duration-500 group-hover:w-24 group-hover:bg-accent" />
+              <p className="mt-4 max-w-sm text-sm leading-relaxed font-light text-white/80">{f.text}</p>
+              <FormaLinkLabel forma={f} className="mt-6 text-white" />
             </div>
           </a>
         ))}
 
-        {/* título y pilares flotando arriba, sobre los tres videos */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 flex flex-col items-center pt-24 text-center">
-          <div className="text-gold-light [&_span]:text-gold-light [&_span.h-px]:bg-gold-light/60">
-            <Eyebrow n={2}>Tres formas de trabajar con Shake</Eyebrow>
-          </div>
-          <p className="mt-3 text-[11px] tracking-[0.25em] text-white/70 uppercase">
+        {/* título flotando arriba, sobre los tres videos */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 flex flex-col items-center pt-24 text-center text-white">
+          <Eyebrow dark>Servicios</Eyebrow>
+          <h2 className="mt-3 text-3xl tracking-[-0.02em]">
+            <span className="font-semibold">Tres formas</span>{" "}
+            <span className="font-light text-white/55">de trabajar con Shake</span>
+          </h2>
+          <p className="mt-2 text-[11px] font-medium tracking-[0.14em] text-white/60 uppercase">
             Mentalidad · Marca · Estrategia · Ventas · Crecimiento
           </p>
         </div>
@@ -307,58 +316,56 @@ const pasosFlujo = ["Destrabar", "Ordenar", "Accionar", "Crecer"];
 
 export function Metodo() {
   return (
-    <Section id="metodo" className="bg-marble">
+    <Section id="metodo" className="bg-cream-gradient">
       <div className="flex min-h-svh w-full flex-col">
         <div className="grid flex-1 lg:grid-cols-[46%_54%]">
-          {/* el video es protagonista: media pantalla de borde a borde */}
-          <div className="relative h-[62svh] overflow-hidden lg:h-auto">
+          {/* el video es protagonista: media pantalla, como tarjeta dentro del marco beige */}
+          <div className="relative h-[62svh] overflow-hidden rounded-b-[26px] lg:m-[7px] lg:mr-0 lg:h-auto lg:rounded-[24px]">
             <AutoVideo
               src="/images/empresaria.mp4"
               poster="/images/empresaria-poster.jpg"
               label="Shake con su equipo festejando detrás de escena"
-              className="absolute inset-0 size-full object-cover object-[50%_35%]"
+              /* Shake está sobre el borde derecho del video: se amplía anclado a la
+                 derecha para recortar la gente del lateral izquierdo */
+              className="absolute inset-0 size-full origin-[100%_40%] scale-[1.3] object-cover object-[100%_35%]"
             />
-            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgb(31_29_26_/_0.35)_0%,transparent_25%,transparent_70%,rgb(31_29_26_/_0.55)_100%)]" />
-            <p className="absolute bottom-6 left-5 font-script text-4xl text-white/90 drop-shadow-[0_2px_10px_rgb(0_0_0_/_0.5)] lg:bottom-10 lg:left-10 lg:text-6xl">
+            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgb(20_19_17_/_0.3)_0%,transparent_25%,transparent_70%,rgb(20_19_17_/_0.55)_100%)]" />
+            <span className="absolute bottom-6 left-5 flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-[11px] font-medium tracking-[0.14em] text-white uppercase backdrop-blur-md lg:bottom-8 lg:left-8">
+              <span className="size-2 bg-accent" />
               Detrás de escena
-            </p>
+            </span>
           </div>
 
           <div className="flex flex-col justify-center px-5 py-12 md:px-10 lg:px-[4vw] lg:pt-24 lg:pb-12">
-            <Eyebrow n={3}>Propuesta de valor / Método</Eyebrow>
+            <Eyebrow>Propuesta de valor / Método</Eyebrow>
 
-            <h2 className="mt-6 font-serif leading-[0.9] font-normal tracking-[-0.01em] text-ink uppercase">
-              <span className="block text-[clamp(1.75rem,8.5vw,5rem)] lg:text-[clamp(2.5rem,4vw,5rem)]">De emprendedora</span>
-              <span className="block text-[clamp(1.75rem,8.5vw,5rem)] lg:text-[clamp(2.5rem,4vw,5rem)] text-gold normal-case italic">
+            <h2 className="mt-6 leading-[0.98] tracking-[-0.035em]">
+              <span className="block text-[clamp(2.2rem,9vw,5rem)] font-light text-soft lg:text-[clamp(2.6rem,4.4vw,5.2rem)]">
+                De emprendedora
+              </span>
+              <span className="block text-[clamp(2.2rem,9vw,5rem)] font-semibold text-ink lg:text-[clamp(2.6rem,4.4vw,5.2rem)]">
                 a empresaria
               </span>
             </h2>
 
-            <p className="mt-6 max-w-lg text-base leading-relaxed text-ink/80 lg:text-lg">
-              Ayudo a profesionales y emprendedores a detectar qué está frenando su crecimiento,
+            <p className="mt-6 max-w-lg text-base leading-relaxed font-light text-ink/75 lg:text-lg">
+              Ayudo a profesionales y emprendedores a{" "}
+              <strong className="font-semibold text-ink">detectar qué está frenando su crecimiento</strong>,
               ordenar su negocio y convertir ideas en acciones que generen resultados.
             </p>
 
-            {/* método en tres pasos numerados */}
-            <ol className="relative mt-10 grid gap-8 sm:grid-cols-3 sm:gap-6">
-              <span
-                aria-hidden
-                className="absolute top-7 right-0 left-0 hidden h-px bg-[linear-gradient(90deg,rgb(179_155_94_/_0.6)_0%,rgb(179_155_94_/_0.6)_85%,transparent)] sm:block"
-              />
+            {/* método en tres pasos: filete arriba, número chico y título */}
+            <ol className="mt-10 grid gap-8 sm:grid-cols-3 sm:gap-8">
               {pilares.map((p, i) => (
-                <li key={p.title} className="relative">
-                  <span className="relative flex items-center gap-3">
-                    <span className="text-outline-gold font-serif text-6xl leading-none">
+                <li key={p.title} className="border-t border-dashed border-ink/25 pt-5">
+                  <span className="flex items-center justify-between">
+                    <span className="text-[11px] font-semibold tracking-[0.2em] text-accent-dark">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className="grid size-9 place-items-center rounded-full border border-gold/50 bg-paper text-gold">
-                      <Icon name={p.icon} className="size-4" />
-                    </span>
+                    <Icon name={p.icon} className="size-4 text-ink/60" />
                   </span>
-                  <h3 className="mt-4 font-serif text-2xl tracking-wide text-ink uppercase">
-                    {p.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted">{p.text}</p>
+                  <h3 className="mt-4 text-lg font-semibold tracking-[-0.01em] text-ink">{p.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed font-light text-muted">{p.text}</p>
                 </li>
               ))}
             </ol>
@@ -366,15 +373,15 @@ export function Metodo() {
         </div>
 
         {/* cinta en movimiento con el recorrido del método */}
-        <div className="relative overflow-hidden border-y border-gold/30 bg-[linear-gradient(90deg,#0f0d0b_0%,#2c2722_50%,#0f0d0b_100%)] py-4 text-gold-light lg:py-5">
-          <div className="marquee flex w-max font-serif text-2xl tracking-[0.2em] whitespace-nowrap uppercase lg:text-3xl">
+        <div className="relative overflow-hidden bg-accent py-4 text-ink lg:py-5">
+          <div className="marquee flex w-max text-2xl font-semibold tracking-[0.06em] whitespace-nowrap uppercase lg:text-3xl">
             {[0, 1].map((copy) => (
               <span key={copy} aria-hidden={copy === 1} className="flex gap-10 pr-10">
                 {Array.from({ length: 3 }).flatMap((_, k) =>
                   pasosFlujo.map((paso) => (
                     <span key={`${k}-${paso}`} className="flex items-center gap-10">
                       {paso}
-                      <span className="text-base text-gold">✦</span>
+                      <span className="size-2.5 bg-ink" />
                     </span>
                   )),
                 )}
@@ -391,48 +398,56 @@ export function Metodo() {
 const stats = [
   { value: "+7.000", label: "Servicios vendidos" },
   { value: "+20", label: "Puestos de trabajo generados" },
-  { value: "+12 años", label: "Emprendiendo y construyendo negocios" },
-  { value: "6 proyectos", label: "Creados, desarrollados o potenciados" },
+  { value: "+12", unit: "años", label: "Emprendiendo y construyendo negocios" },
+  { value: "6", unit: "proyectos", label: "Creados, desarrollados o potenciados" },
 ];
 
 export function Autoridad() {
   return (
-    <Section id="autoridad" className="bg-glow">
-      <div className={`${container} flex flex-col items-center pt-24 pb-16 text-center lg:pt-24 lg:pb-14`}>
-        <Eyebrow n={4}>Autoridad / Impacto</Eyebrow>
-        <h2 className="mt-6 max-w-5xl font-serif text-[2rem] leading-tight font-normal text-gold sm:text-4xl lg:text-5xl">
-          Resultados que respaldan mi experiencia
+    <Section id="autoridad" className="bg-cream-gradient">
+      <div className={`${container} flex flex-col pt-24 pb-16 lg:pt-24 lg:pb-14`}>
+        <Eyebrow>Autoridad / Impacto</Eyebrow>
+        <h2 className="mt-5 max-w-4xl text-[2.1rem] leading-[1.08] tracking-[-0.03em] sm:text-5xl lg:text-[3.6rem]">
+          <span className="font-semibold text-ink">Resultados que respaldan</span>{" "}
+          <span className="font-light text-soft">mi experiencia</span>
         </h2>
 
-        <div className="mt-12 grid w-full grid-cols-2 gap-4 sm:gap-6 lg:mt-12 lg:grid-cols-4">
+        {/* cifras como en una ficha: número grande, línea punteada y etiqueta */}
+        <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-10 lg:mt-16 lg:grid-cols-4 lg:gap-x-10">
           {stats.map((s) => (
-            <div key={s.value} className="card-glass px-3 py-7 sm:px-5 lg:py-8">
-              <p className="font-serif text-[1.4rem] whitespace-nowrap text-ink sm:text-3xl xl:text-[2.6rem]">
-                {s.value}
+            <div key={s.value}>
+              <p className="leading-none whitespace-nowrap text-ink">
+                <span className="text-[2.2rem] font-medium tracking-[-0.04em] sm:text-5xl xl:text-[3.6rem]">
+                  {s.value}
+                </span>
+                {s.unit && (
+                  <span className="ml-1.5 text-lg font-light tracking-[-0.02em] text-soft sm:text-2xl">
+                    {s.unit}
+                  </span>
+                )}
               </p>
-              <span className="mx-auto mt-4 block h-px w-8 bg-gold/50" />
-              <p className="mx-auto mt-4 max-w-[13rem] text-[13px] leading-snug text-muted">
+              <span className="mt-5 block border-t border-dashed border-ink/30" />
+              <p className="mt-3 max-w-[14rem] text-[13px] leading-snug font-medium text-ink/80">
                 {s.label}
               </p>
             </div>
           ))}
         </div>
 
-        {/* cita centrada, con aire, entre filetes dorados */}
-        <figure className="mt-14 flex max-w-3xl flex-col items-center lg:mt-14">
-          <div className="flex w-full items-center gap-5">
-            <span className="h-px flex-1 bg-gold/35" />
-            <span className="font-serif text-6xl leading-[0.6] text-gold/70">“</span>
-            <span className="h-px flex-1 bg-gold/35" />
+        {/* cita con aire */}
+        <figure className="mt-16 flex max-w-3xl gap-5 lg:mt-20">
+          <span className="text-6xl leading-[0.8] font-bold text-accent">“</span>
+          <div>
+            <blockquote className="text-[1.3rem] leading-snug tracking-[-0.01em] sm:text-2xl lg:text-[1.8rem]">
+              <span className="font-light text-ink/70">No enseño solamente lo que estudié.</span>{" "}
+              <span className="font-semibold text-ink">
+                Enseño lo que tuve que construir, ejecutar, vender y sostener.
+              </span>
+            </blockquote>
+            <figcaption className="mt-5 text-[11px] font-medium tracking-[0.14em] text-muted uppercase">
+              Shake Gasko Oriz
+            </figcaption>
           </div>
-          <blockquote className="mt-6 font-serif text-[1.4rem] leading-snug text-ink sm:text-2xl lg:text-[2rem]">
-            No enseño solamente lo que estudié.
-            <br />
-            <em className="text-gold">Enseño lo que tuve que construir, ejecutar, vender y sostener.</em>
-          </blockquote>
-          <figcaption className="mt-6 text-[11px] tracking-[0.3em] text-muted uppercase">
-            Shake Gasko Oriz
-          </figcaption>
         </figure>
       </div>
     </Section>
@@ -454,12 +469,12 @@ const negocios: Negocio[] = [
     video: { src: "/images/casa-shake.mp4", poster: "/images/casa-shake-poster.jpg" },
   },
   {
-    name: "4-1 Streetwear",
+    name: "41 Streetwear",
     role: ["Co-equiper", "Estrategia y desarrollo"],
     video: { src: "/images/streetwear.mp4", poster: "/images/streetwear-poster.jpg" },
   },
   {
-    name: "4-1 Suplementos",
+    name: "41 Suplementos",
     role: ["Co-equiper", "Estrategia y crecimiento"],
     video: { src: "/images/suplementos.mp4", poster: "/images/suplementos-poster.jpg" },
   },
@@ -486,23 +501,23 @@ const negocios: Negocio[] = [
 
 export function Negocios() {
   return (
-    <Section id="negocios" className="bg-ink-gradient text-white">
-      {/* título arriba y debajo una grilla a todo el ancho: 2 columnas en mobile, 3×2 en desktop */}
-      <div className="flex min-h-svh w-full flex-col">
-        <div className="flex flex-col items-center px-5 pt-24 pb-8 text-center lg:pt-20 lg:pb-7">
-          <div className="[&_span]:text-gold-light [&_span.h-px]:bg-gold-light/60">
-            <Eyebrow n={5}>CEO de negocios y co-equiper</Eyebrow>
-          </div>
-          <h2 className="mt-4 font-serif text-3xl font-normal text-white sm:text-4xl lg:text-5xl">
-            Negocios que construí, potencié y acompaño
+    <Section id="negocios" className="frame-y bg-ink-gradient text-white">
+      {/* título arriba y debajo los negocios en vertical (9:16, el formato de los videos):
+          2 columnas en mobile, 3 en tablet, una fila de 6 en desktop */}
+      <div className="flex min-h-[calc(100svh-8px)] w-full flex-col justify-center md:min-h-[calc(100svh-14px)]">
+        <div className="flex flex-col items-center px-5 pt-24 pb-8 text-center lg:pt-20 lg:pb-10">
+          <Eyebrow dark>CEO de negocios y co-equiper</Eyebrow>
+          <h2 className="mt-4 text-3xl leading-tight tracking-[-0.03em] sm:text-4xl lg:text-5xl">
+            <span className="font-semibold">Negocios que construí,</span>{" "}
+            <span className="font-light text-white/55">potencié y acompaño</span>
           </h2>
         </div>
 
-        <div className="grid flex-1 grid-cols-2 gap-px bg-white/10 lg:grid-cols-3 lg:grid-rows-2">
+        <div className="grid grid-cols-2 gap-px bg-white/10 md:grid-cols-3 lg:grid-cols-6">
           {negocios.map((n) => (
             <article
               key={n.name}
-              className="group relative flex aspect-[3/4] flex-col justify-end overflow-hidden bg-ink lg:aspect-auto"
+              className="group relative flex aspect-[9/16] flex-col justify-end overflow-hidden bg-ink"
             >
               {n.video ? (
                 <AutoVideo
@@ -516,27 +531,20 @@ export function Negocios() {
                   src={n.image.src}
                   alt={n.image.alt}
                   fill
-                  sizes="(min-width: 1024px) 33vw, 50vw"
+                  sizes="(min-width: 1024px) 17vw, (min-width: 768px) 33vw, 50vw"
                   className={`object-cover transition duration-[1.2s] ease-out group-hover:scale-105 ${n.image.position}`}
                 />
-              ) : (
-                /* sin material todavía: fondo provisorio con el nombre en grande */
-                <div className="absolute inset-0 grid place-items-center bg-[radial-gradient(ellipse_at_50%_35%,#3a3128_0%,#1f1d1a_75%)]">
-                  <span className="text-outline-light px-4 text-center font-serif text-4xl leading-none lg:text-6xl">
-                    {n.name}
-                  </span>
-                </div>
-              )}
+              ) : null}
 
-              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(0deg,rgb(31_29_26_/_0.92)_0%,rgb(31_29_26_/_0.45)_35%,transparent_65%)] transition duration-700 group-hover:opacity-80" />
+              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(0deg,rgb(20_19_17_/_0.92)_0%,rgb(20_19_17_/_0.45)_35%,transparent_65%)] transition duration-700 group-hover:opacity-80" />
 
-              <div className="relative p-4 sm:p-6 lg:px-8 lg:pb-7">
-                <span className="mb-3 block h-px w-8 bg-gold-light/70 transition-all duration-500 group-hover:w-16" />
-                <h3 className="font-serif text-xl leading-tight text-white sm:text-2xl lg:text-3xl">
+              <div className="relative p-4 sm:p-5 lg:p-5 xl:p-6">
+                <span className="mb-3 block h-1 w-6 bg-accent transition-all duration-500 group-hover:w-12" />
+                <h3 className="text-base leading-tight font-bold text-white sm:text-lg xl:text-xl">
                   {n.name}
                 </h3>
                 {n.role.map((r) => (
-                  <p key={r} className="text-[11px] leading-snug text-white/70 sm:text-xs">
+                  <p key={r} className="text-[11px] leading-snug font-light text-white/70">
                     {r}
                   </p>
                 ))}
@@ -554,14 +562,14 @@ export function QuienEs() {
   return (
     <Section id="quien-es" className="bg-cream-gradient">
       <div className={`${container} grid items-center gap-14 pt-24 pb-16 lg:grid-cols-[5fr_6fr] lg:gap-[6vw] lg:py-20`}>
-        {/* video vertical con marco dorado fino desplazado detrás */}
+        {/* video vertical con marco fino desplazado detrás */}
         <figure className="mx-auto w-full max-w-sm lg:max-w-[26rem]">
           <div className="relative">
             <span
               aria-hidden
-              className="absolute inset-0 translate-x-4 translate-y-4 border border-gold/45 lg:translate-x-6 lg:translate-y-6"
+              className="absolute inset-0 translate-x-4 translate-y-4 rounded-[22px] border border-ink/25 lg:translate-x-6 lg:translate-y-6"
             />
-            <div className="relative aspect-[3/4] overflow-hidden bg-stone">
+            <div className="relative aspect-[3/4] overflow-hidden rounded-[22px] bg-sand">
               <AutoVideo
                 src="/images/quien-es.mp4"
                 poster="/images/quien-es-poster.jpg"
@@ -570,45 +578,50 @@ export function QuienEs() {
               />
             </div>
           </div>
-          <figcaption className="mt-10 flex items-center gap-3 text-[10px] tracking-[0.3em] text-muted uppercase">
-            <span className="h-px w-8 bg-gold/60" />
+          <figcaption className="mt-10 flex items-center gap-2.5 text-[11px] font-medium tracking-[0.14em] text-muted uppercase">
+            <span className="size-2 bg-accent" />
             Empresaria · Mentora · Speaker
           </figcaption>
         </figure>
 
         {/* texto como un recorrido: línea vertical con un punto por etapa */}
-        <div className="relative border-l border-gold/30 pl-8 sm:pl-12">
-          <span aria-hidden className="absolute top-1 -left-[5px] size-[9px] rounded-full bg-gold" />
-          <Eyebrow n={6}>Quién es Shake</Eyebrow>
-          <h2 className="mt-5 font-serif text-[2.4rem] leading-[1.05] font-normal text-ink sm:text-5xl lg:text-6xl">
-            ¿Quién es <em className="text-gold">Shake</em>?
+        <div className="relative border-l border-dashed border-ink/25 pl-8 sm:pl-12">
+          <span aria-hidden className="absolute top-1 -left-[5px] size-[9px] bg-accent" />
+          <Eyebrow>Quién es Shake</Eyebrow>
+          <h2 className="mt-5 text-[2.6rem] leading-[1] tracking-[-0.035em] sm:text-5xl lg:text-[3.8rem]">
+            <span className="font-light text-soft">¿Quién es</span>{" "}
+            <span className="font-semibold text-ink">Shake?</span>
           </h2>
 
           <div className="relative mt-10">
             <span
               aria-hidden
-              className="absolute top-2 -left-[calc(2rem+4px)] size-[7px] rounded-full border border-gold bg-paper sm:-left-[calc(3rem+4px)]"
+              className="absolute top-2 -left-[calc(2rem+4px)] size-[7px] border border-ink/40 bg-paper sm:-left-[calc(3rem+4px)]"
             />
-            <p className="max-w-xl text-[15px] leading-[1.85] text-ink/75 first-letter:float-left first-letter:mt-1 first-letter:mr-3 first-letter:font-serif first-letter:text-[4.2rem] first-letter:leading-[0.8] first-letter:text-gold">
+            <p className="max-w-xl text-[15px] leading-[1.85] font-light text-ink/80 first-letter:float-left first-letter:mt-1 first-letter:mr-3 first-letter:text-[4rem] first-letter:leading-[0.8] first-letter:font-semibold first-letter:text-ink">
               Empecé a emprender muy joven y durante más de una década pasé por prácticamente todas
               las etapas de un negocio: vender mi propio trabajo, atender clientes, formar equipos,
               abrir espacios físicos, capacitar profesionales, crear marcas, desarrollar servicios y
               liderar personas. Ese recorrido me enseñó que muchas veces un negocio no necesita más
-              información: necesita claridad, decisiones y acción. Hoy utilizo esa experiencia para
-              acompañar a otros profesionales a transformar su conocimiento en negocios más sólidos,
-              rentables y escalables.
+              información:{" "}
+              <strong className="font-semibold text-ink">necesita claridad, decisiones y acción.</strong>{" "}
+              Hoy utilizo esa experiencia para acompañar a otros profesionales a transformar su
+              conocimiento en negocios más sólidos, rentables y escalables.
             </p>
           </div>
 
           <blockquote className="relative mt-10">
             <span
               aria-hidden
-              className="absolute top-3 -left-[calc(2rem+5px)] size-[9px] rounded-full bg-gold sm:-left-[calc(3rem+5px)]"
+              className="absolute top-3 -left-[calc(2rem+5px)] size-[9px] bg-accent sm:-left-[calc(3rem+5px)]"
             />
-            <p className="max-w-lg font-serif text-2xl leading-snug text-ink italic lg:text-[1.9rem]">
-              “Tu negocio no puede crecer mucho más allá de la persona que lo lidera.”
+            <p className="max-w-lg text-2xl leading-snug tracking-[-0.02em] lg:text-[1.75rem]">
+              <span className="font-light text-ink/70">“Tu negocio no puede crecer mucho más allá</span>{" "}
+              <span className="font-semibold text-ink">de la persona que lo lidera.”</span>
             </p>
-            <footer className="mt-4 text-[11px] tracking-[0.3em] text-gold uppercase">— Shake</footer>
+            <footer className="mt-4 text-[11px] font-medium tracking-[0.14em] text-muted uppercase">
+              — Shake
+            </footer>
           </blockquote>
         </div>
       </div>
@@ -616,37 +629,39 @@ export function QuienEs() {
   );
 }
 
-/* 7 · CTA final — sobrio: una idea, un botón */
+/* 7 · CTA final — sobrio: una idea, un botón a WhatsApp */
 export function CtaFinal() {
   return (
-    <Section id="contacto" className="bg-ink-gradient text-white">
-      <div className="relative flex min-h-svh w-full flex-col">
-        <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center px-5 pt-24 pb-12 text-center">
-          <div className="[&_span]:text-gold-light [&_span.h-px]:bg-gold-light/60">
-            <Eyebrow n={7}>Trabajemos juntos</Eyebrow>
-          </div>
+    <Section id="contacto" className="frame bg-ink-gradient text-white">
+      <div className="mx-auto flex min-h-[calc(100svh-8px)] w-full max-w-3xl flex-col items-center justify-center px-5 pt-24 pb-12 text-center md:min-h-[calc(100svh-14px)]">
+        <Eyebrow dark>Trabajemos juntos</Eyebrow>
 
-          <h2 className="mt-8 font-serif text-[2.1rem] leading-[1.12] font-normal text-white sm:text-5xl lg:text-[3.6rem]">
-            Tu próximo nivel no necesita más información.
-            <em className="mt-2 block text-gold-light">Necesita decisión.</em>
-          </h2>
+        <h2 className="mt-8 text-[2.1rem] leading-[1.08] tracking-[-0.03em] sm:text-5xl lg:text-[3.6rem]">
+          <span className="font-light text-white/70">Tu próximo nivel no necesita más información.</span>{" "}
+          <span className="mt-2 block font-semibold text-accent">Necesita decisión.</span>
+        </h2>
 
-          <span className="mt-10 block h-px w-16 bg-gold-light/60" />
-
-          <p className="mt-10 max-w-lg text-[15px] leading-relaxed text-white/75 lg:text-base">
-            Si sabés que tu negocio tiene potencial, pero necesitás claridad, estrategia y
-            acompañamiento para llevarlo al próximo nivel, podemos trabajar juntos.
-          </p>
-
-          <div className="mt-10">
-            <GoldButton href="#contacto">Aplicar para trabajar con Shake</GoldButton>
-          </div>
-        </div>
-
-        <p className="bg-paper px-5 py-4 text-center text-[11px] leading-relaxed text-black">
-          Desarrollado por Braian Yamil Barrientos · Ing. en Sistemas · MAT. 124335/A
+        <p className="mt-10 max-w-lg text-[15px] leading-relaxed font-light text-white/75 lg:text-base">
+          Si sabés que tu negocio tiene potencial, pero necesitás claridad, estrategia y
+          acompañamiento para llevarlo al próximo nivel,{" "}
+          <strong className="font-semibold text-white">podemos trabajar juntos.</strong>
         </p>
+
+        <div className="mt-10">
+          <Button href={whatsapp("Hola Shake, quiero aplicar para trabajar con vos.")} arrow="out">
+            Aplicar para trabajar con Shake
+          </Button>
+        </div>
       </div>
     </Section>
+  );
+}
+
+/* pie: crédito del desarrollo en negro sobre el beige */
+export function Footer() {
+  return (
+    <footer className="px-5 pt-2 pb-5 text-center text-[11px] leading-relaxed text-black">
+      Desarrollado por Braian Yamil Barrientos · Ing. en Sistemas · MAT. 124335/A
+    </footer>
   );
 }
