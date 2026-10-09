@@ -45,7 +45,7 @@ export function Recorrido() {
                   layoutId="resaltador"
                   aria-hidden
                   transition={{ type: "spring", stiffness: 260, damping: 30 }}
-                  className="absolute inset-x-[-0.12em] bottom-[0.08em] -z-10 h-[0.36em] bg-accent"
+                  className="absolute inset-x-[-0.12em] bottom-[0.08em] -z-10 h-[0.36em] bg-accent-grad"
                 />
               )}
               <motion.span

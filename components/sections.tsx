@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { AutoVideo } from "./AutoVideo";
+import { HeroFondo } from "./HeroFondo";
 import { Recorrido } from "./Recorrido";
 
 import {
@@ -30,7 +31,7 @@ const links = [
 
 export function Nav() {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-ink/55 backdrop-blur-xl backdrop-saturate-150">
+    <header className="site-nav fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-ink/55 backdrop-blur-xl backdrop-saturate-150">
       <div className="mx-auto flex h-14 w-full max-w-[1600px] items-center justify-between px-5 md:h-16 md:px-[5vw]">
         <a href="#inicio" className="text-sm font-extrabold tracking-[-0.04em] text-white uppercase">
           Shake Gasko Oriz
@@ -46,7 +47,7 @@ export function Nav() {
           href={whatsapp("Hola Shake, quiero hacerte una consulta.")}
           target="_blank"
           rel="noopener noreferrer"
-          className="btn-accent rounded-full px-4 py-2 text-xs font-semibold"
+          className="nav-cta btn-accent rounded-full px-4 py-2 text-xs font-semibold"
         >
           Contacto
         </a>
@@ -58,20 +59,9 @@ export function Nav() {
 /* 1 · Hero / Portada — foto a pantalla completa con la persona al centro y los textos alrededor */
 export function Hero() {
   return (
-    <Section id="inicio" className="frame bg-ink text-white">
-      {/* foto: en mobile arranca más abajo para dejar lugar al nombre arriba */}
-      <div className="absolute inset-x-0 top-[14%] bottom-0 lg:inset-0">
-        <Image
-          src="/images/portadahorizontal.jpeg"
-          alt="Shake Gasko Oriz en una sala de reuniones"
-          fill
-          priority
-          /* en pantallas verticales la foto horizontal se dibuja mucho más ancha que la
-             pantalla (alto × 1.8) y se recorta: pedir esa resolución para que no pixelee */
-          sizes="(orientation: portrait) 160vh, 100vw"
-          className="object-cover object-[51%_center]"
-        />
-      </div>
+    <Section id="inicio" className="bg-ink text-white">
+      {/* foto con movimiento (zoom lento, profundidad con el mouse y luz que recorre la escena) */}
+      <HeroFondo />
 
       {/* velos para que se lea el texto sin tapar a la persona */}
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,#141311_0%,#141311_14%,rgb(20_19_17_/_0.35)_26%,transparent_42%,transparent_55%,rgb(20_19_17_/_0.85)_80%,#141311_100%)] lg:hidden" />
@@ -79,9 +69,9 @@ export function Hero() {
       <div className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(0deg,rgb(20_19_17_/_0.55)_0%,transparent_30%,transparent_80%,rgb(20_19_17_/_0.35)_100%)] lg:block" />
       <div className="dots-dark pointer-events-none absolute inset-0" />
 
-      <div className="relative z-10 mx-auto flex min-h-[calc(100svh-var(--frame-y))] w-full max-w-[1600px] flex-col px-5 pt-8 pb-6 lg:block lg:px-[5vw] lg:pt-0 lg:pb-0">
+      <div className="relative z-10 mx-auto flex min-h-svh w-full max-w-[1600px] flex-col px-5 pt-20 pb-14 lg:block lg:px-[5vw] lg:pt-0 lg:pb-0">
         {/* nombre: arriba en mobile, a la izquierda de la persona en desktop */}
-        <div className="lg:absolute lg:top-[24%] lg:left-[5vw]">
+        <div className="parallax-1 lg:absolute lg:top-[24%] lg:left-[5vw]">
           <Eyebrow dark>Empresaria · Mentora de negocios · Speaker</Eyebrow>
           <h1 className="mt-4 text-[2.7rem] leading-[0.95] tracking-[-0.03em] sm:text-6xl lg:text-[4.5rem]">
             <span className="block font-semibold">Shake</span>
@@ -90,7 +80,7 @@ export function Hero() {
         </div>
 
         {/* etiqueta flotante junto a la mano (desde tablet) */}
-        <div className="absolute top-[58%] left-[6%] hidden items-center gap-3 rounded-xl border border-white/30 bg-white/15 py-2 pr-2 pl-4 shadow-[0_12px_30px_-14px_rgb(0_0_0_/_0.5)] backdrop-blur-md sm:flex lg:top-[56%] lg:left-[27%]">
+        <div className="parallax-3 absolute top-[58%] left-[6%] hidden items-center gap-3 rounded-xl border border-white/30 bg-white/15 py-2 pr-2 pl-4 shadow-[0_12px_30px_-14px_rgb(0_0_0_/_0.5)] backdrop-blur-md sm:flex lg:top-[56%] lg:left-[27%]">
           <p className="text-[11px] leading-tight font-light text-white/85">
             Conocimiento en negocios
             <br />
@@ -101,7 +91,7 @@ export function Hero() {
 
         {/* bloque principal: abajo en mobile, a la derecha de la persona en desktop.
             El CTA invita a seguir bajando (no salta al contacto) */}
-        <div className="card-glass-dark relative mt-auto w-full max-w-md px-5 py-5 sm:p-6 lg:absolute lg:right-[6vw] lg:bottom-[16%] lg:mt-0 lg:w-[22rem] lg:p-7">
+        <div className="card-glass-dark parallax-2 relative mt-auto w-full max-w-md px-5 py-5 sm:p-6 lg:absolute lg:right-[6vw] lg:bottom-[16%] lg:mt-0 lg:w-[22rem] lg:p-7">
           <h2 className="text-[1.7rem] leading-[1.1] tracking-[-0.02em] sm:text-3xl lg:text-[2.2rem]">
             <span className="block font-light text-white/80">De emprendedora</span>
             <span className="block font-semibold text-accent">a empresaria.</span>
@@ -117,7 +107,7 @@ export function Hero() {
           </div>
         </div>
 
-        <ScrollCue className="mt-5 self-center lg:absolute lg:bottom-6 lg:left-1/2 lg:mt-0 lg:-translate-x-1/2" />
+        <ScrollCue className="mt-5 self-center lg:absolute lg:bottom-14 lg:left-1/2 lg:mt-0 lg:-translate-x-1/2" />
       </div>
     </Section>
   );

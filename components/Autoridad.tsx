@@ -118,6 +118,19 @@ export function Autoridad() {
 
   return (
     <Section id="autoridad" className="frame bg-ink-gradient text-white">
+      {/* luces difusas detrás de las formas: el vidrio esmerilado las desenfoca */}
+      <motion.div
+        aria-hidden
+        animate={reducir ? undefined : { x: [0, 40, 0], y: [0, -30, 0] }}
+        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+        className="pointer-events-none absolute top-[38%] left-[22%] size-[34rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgb(243_223_107_/_0.55)_0%,rgb(243_223_107_/_0.15)_45%,transparent_70%)] blur-2xl"
+      />
+      <motion.div
+        aria-hidden
+        animate={reducir ? undefined : { x: [0, -40, 0], y: [0, 30, 0] }}
+        transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
+        className="pointer-events-none absolute top-[60%] left-[72%] size-[30rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgb(255_255_255_/_0.35)_0%,rgb(255_255_255_/_0.08)_45%,transparent_70%)] blur-2xl"
+      />
 
       <div className="relative mx-auto flex w-full max-w-6xl flex-col items-center px-4 pt-6 pb-10 md:px-8 lg:pt-6 lg:pb-6">
         <p className="flex items-center gap-2.5 text-[11px] font-semibold tracking-[0.14em] text-white/85 uppercase">
@@ -131,7 +144,7 @@ export function Autoridad() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-4 rounded-full bg-accent px-6 py-3 text-center text-base leading-tight tracking-[-0.02em] text-ink sm:px-10 sm:py-4 sm:text-xl lg:text-2xl"
+          className="glass-shape glass-yellow glass-text mt-4 rounded-full px-6 py-3 text-center text-base leading-tight tracking-[-0.02em] sm:px-10 sm:py-4 sm:text-xl lg:text-2xl"
         >
           <span className="font-light">Resultados que respaldan</span>{" "}
           <span className="font-bold">mi experiencia</span>
@@ -154,10 +167,10 @@ export function Autoridad() {
               {c.piezas.map((p, k) => (
                 <div
                   key={k}
-                  style={{ height: `${p.alto}cqw` }}
-                  className={`flex flex-col items-center rounded-full px-[10cqw] text-center ${
-                    c.color === "amarillo" ? "bg-accent" : "bg-white"
-                  } text-ink ${p.contenido === "numero" ? "justify-start" : "justify-center"}`}
+                  style={{ height: `${p.alto}cqw`, ["--sheen-delay" as string]: `${i * 0.6 + k * 0.3}s` }}
+                  className={`glass-shape glass-text flex flex-col items-center rounded-full px-[10cqw] text-center ${
+                    c.color === "amarillo" ? "glass-yellow" : "glass-white"
+                  } ${p.contenido === "numero" ? "justify-start" : "justify-center"}`}
                 >
                   {p.contenido === "numero" ? (
                     /* el número se centra en la primera "cabeza" redonda (100cqw) */
@@ -196,7 +209,7 @@ export function Autoridad() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false }}
           transition={{ duration: 0.6, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-8 max-w-3xl rounded-[28px] bg-white px-6 py-4 text-ink text-center sm:rounded-full sm:px-10 lg:mt-9"
+          className="glass-shape glass-white glass-text mt-8 max-w-3xl rounded-[28px] px-6 py-4 text-center sm:rounded-full sm:px-10 lg:mt-9"
         >
           <blockquote className="text-sm leading-snug tracking-[-0.01em] sm:text-base lg:text-lg">
             <span className="font-light text-ink/70">“No enseño solamente lo que estudié.</span>{" "}

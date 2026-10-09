@@ -149,7 +149,7 @@ export function Icon({ name, className = "" }: { name: IconName; className?: str
 export function IconTile({ name, className = "" }: { name: IconName; className?: string }) {
   return (
     <span
-      className={`grid size-11 shrink-0 place-items-center rounded-xl bg-accent text-ink ${className}`}
+      className={`grid size-11 shrink-0 place-items-center rounded-xl bg-accent-grad text-ink shadow-[inset_0_1px_0_rgb(255_255_255_/_0.6)] ${className}`}
     >
       <Icon name={name} className="size-6" />
     </span>

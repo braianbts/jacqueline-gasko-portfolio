@@ -8,7 +8,7 @@
   --color-paper: #fbf9f5; /* beige casi blanco: fondo de la página y del marco */
   --color-sand: #f1ede6;
   --color-line: #e0d9cc;
-  --color-accent: #fef102; /* amarillo limón intenso */
+  --color-accent: #f3df6b; /* amarillo manteca, pastel */
   --color-accent-dark: #6f6500; /* versión oscura para texto sobre beige */
 
   --font-sans: var(--font-poppins);
@@ -76,6 +76,11 @@ body {
   border-width: var(--frame-top) 0 var(--frame-bottom);
 }
 
+/* degradado sutil del amarillo para superficies (íconos, resaltador) */
+@utility bg-accent-grad {
+  background-image: linear-gradient(135deg, #faec97 0%, #f3df6b 50%, #e7cb4c 100%);
+}
+
 @layer components {
   /* fondos claros: beige crudo que cae a un arena más oscuro, con trama de puntos */
   .bg-cream-gradient,
@@ -105,14 +110,15 @@ body {
   }
 
   .btn-accent {
-    background: var(--color-accent);
+    background-image: linear-gradient(135deg, #faec97 0%, #f3df6b 50%, #e7cb4c 100%);
     color: var(--color-ink);
-    transition: transform 0.25s ease, background-color 0.25s ease;
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.6);
+    transition: transform 0.25s ease, filter 0.25s ease;
   }
 
   .btn-accent:hover {
     transform: translateY(-2px);
-    background: #f2e400;
+    filter: brightness(1.04);
   }
 
   /* tarjeta glass: el borde brilla en blanco arriba y abajo y se apaga en los costados */
@@ -281,4 +287,110 @@ body {
   filter: blur(6px);
   transition-delay: 0ms;
   transition-duration: 0.2s;
+}
+
+/* formas de vidrio esmerilado (Autoridad): casi transparentes, con mucho desenfoque de lo
+   que hay detrás, un tinte suave, borde blanco fino y luminoso y un destello cada tanto */
+.glass-shape {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  --glass-filter: blur(22px) saturate(160%);
+  backdrop-filter: var(--glass-filter);
+  box-shadow:
+    inset 0 0 0 1.5px rgb(255 255 255 / 0.4),
+    inset 0 1px 0 rgb(255 255 255 / 0.75),
+    0 30px 60px -30px rgb(0 0 0 / 0.8);
+}
+
+.glass-yellow {
+  background-image: linear-gradient(160deg, rgb(252 240 150 / 0.98) 0%, rgb(248 230 112 / 0.96) 55%, rgb(243 220 92 / 0.94) 100%);
+}
+
+.glass-white {
+  background-image: linear-gradient(160deg, rgb(255 255 255 / 0.99) 0%, rgb(253 253 251 / 0.96) 55%, rgb(246 245 241 / 0.94) 100%);
+}
+
+/* texto sobre el vidrio: negro, con un filo de luz muy sutil */
+.glass-text {
+  color: var(--color-ink);
+  text-shadow: 0 1px 0 rgb(255 255 255 / 0.35);
+}
+
+/* reflejo suave en la parte de arriba */
+.glass-shape::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 55% 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(ellipse 70% 100% at 35% 0%, rgb(255 255 255 / 0.45), transparent 70%);
+}
+
+/* destello diagonal que cruza la forma */
+.glass-shape::after {
+  content: "";
+  position: absolute;
+  inset: -20% -60%;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 42%, rgb(255 255 255 / 0.6) 50%, transparent 58%);
+  transform: translateX(-70%);
+  animation: glass-sheen 7s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  animation-delay: var(--sheen-delay, 0s);
+}
+
+@keyframes glass-sheen {
+  0%,
+  65% {
+    transform: translateX(-70%);
+  }
+  100% {
+    transform: translateX(70%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glass-shape::after {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+/* capas del hero que acompañan al mouse (las variables --mx/--my las escribe HeroFondo):
+   cuanto más "adelante" la capa, más se mueve */
+.parallax-1 {
+  translate: calc(var(--mx, 0) * 6px) calc(var(--my, 0) * 4px);
+}
+
+.parallax-2 {
+  translate: calc(var(--mx, 0) * 12px) calc(var(--my, 0) * 8px);
+}
+
+.parallax-3 {
+  translate: calc(var(--mx, 0) * 18px) calc(var(--my, 0) * 12px);
+}
+
+/* menú: transparente sobre el hero (solo el texto, sutil) y glass desde la segunda sección.
+   El atributo data-hero lo maneja components/HeroNavState.tsx */
+.site-nav {
+  transition:
+    background-color 0.5s ease,
+    border-color 0.5s ease,
+    backdrop-filter 0.5s ease;
+}
+
+.site-nav .nav-cta {
+  transition: opacity 0.4s ease, transform 0.25s ease;
+}
+
+html[data-hero] .site-nav {
+  background-color: transparent;
+  border-color: transparent;
+  backdrop-filter: none;
+}
+
+html[data-hero] .site-nav .nav-cta {
+  opacity: 0;
+  pointer-events: none;
 }
