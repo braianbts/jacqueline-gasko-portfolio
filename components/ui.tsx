@@ -23,6 +23,7 @@ export function Section({
 export function Eyebrow({ children, dark = false }: { children: ReactNode; dark?: boolean }) {
   return (
     <div
+      data-reveal
       className={`flex items-center gap-2.5 text-[11px] font-medium tracking-[0.14em] uppercase ${
         dark ? "text-white/85" : "text-ink/80"
       }`}

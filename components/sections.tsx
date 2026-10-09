@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { AutoVideo } from "./AutoVideo";
+import { Recorrido } from "./Recorrido";
 
 import {
   Arrow,
@@ -19,7 +20,7 @@ const container = "mx-auto w-full max-w-6xl px-5 md:px-8";
 const whatsapp = (mensaje: string) =>
   `https://wa.me/5493484670258?text=${encodeURIComponent(mensaje)}`;
 
-/* Menú superior: barra oscura flotante que acompaña el marco de las secciones */
+/* Menú superior: barra glass oscura pegada arriba, de borde a borde, fija al scrollear */
 const links = [
   { href: "#servicios", label: "Servicios" },
   { href: "#metodo", label: "Método" },
@@ -29,10 +30,9 @@ const links = [
 
 export function Nav() {
   return (
-    <header className="fixed inset-x-3 top-3 z-50 rounded-2xl border border-white/10 bg-ink/70 backdrop-blur-xl md:inset-x-5 md:top-4">
-      <div className="flex h-14 items-center justify-between px-4 md:px-6">
-        <a href="#inicio" className="flex items-center gap-2 text-sm font-semibold tracking-tight text-white">
-          <span className="size-2 bg-accent" />
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-ink/55 backdrop-blur-xl backdrop-saturate-150">
+      <div className="mx-auto flex h-14 w-full max-w-[1600px] items-center justify-between px-5 md:h-16 md:px-[5vw]">
+        <a href="#inicio" className="text-sm font-extrabold tracking-[-0.04em] text-white uppercase">
           Shake Gasko Oriz
         </a>
         <nav className="hidden items-center gap-8 text-xs text-white/70 md:flex">
@@ -79,11 +79,11 @@ export function Hero() {
       <div className="pointer-events-none absolute inset-0 hidden bg-[linear-gradient(0deg,rgb(20_19_17_/_0.55)_0%,transparent_30%,transparent_80%,rgb(20_19_17_/_0.35)_100%)] lg:block" />
       <div className="dots-dark pointer-events-none absolute inset-0" />
 
-      <div className="relative z-10 mx-auto flex min-h-[calc(100svh-8px)] w-full max-w-[1600px] flex-col px-5 pt-24 pb-6 md:min-h-[calc(100svh-14px)] lg:block lg:px-[5vw] lg:pt-0 lg:pb-0">
+      <div className="relative z-10 mx-auto flex min-h-[calc(100svh-var(--frame-y))] w-full max-w-[1600px] flex-col px-5 pt-8 pb-6 lg:block lg:px-[5vw] lg:pt-0 lg:pb-0">
         {/* nombre: arriba en mobile, a la izquierda de la persona en desktop */}
         <div className="lg:absolute lg:top-[24%] lg:left-[5vw]">
           <Eyebrow dark>Empresaria · Mentora de negocios · Speaker</Eyebrow>
-          <h1 className="mt-4 text-[2.7rem] leading-[0.95] tracking-[-0.03em] sm:text-6xl lg:text-[clamp(3rem,4.8vw,6rem)]">
+          <h1 className="mt-4 text-[2.7rem] leading-[0.95] tracking-[-0.03em] sm:text-6xl lg:text-[4.5rem]">
             <span className="block font-semibold">Shake</span>
             <span className="block font-light text-white/75">Gasko Oriz</span>
           </h1>
@@ -101,7 +101,7 @@ export function Hero() {
 
         {/* bloque principal: abajo en mobile, a la derecha de la persona en desktop.
             El CTA invita a seguir bajando (no salta al contacto) */}
-        <div className="card-glass-dark relative mt-auto w-full max-w-md px-5 py-5 sm:p-6 lg:absolute lg:right-[6vw] lg:bottom-[16%] lg:mt-0 lg:w-[clamp(20rem,26vw,22rem)] lg:p-7">
+        <div className="card-glass-dark relative mt-auto w-full max-w-md px-5 py-5 sm:p-6 lg:absolute lg:right-[6vw] lg:bottom-[16%] lg:mt-0 lg:w-[22rem] lg:p-7">
           <h2 className="text-[1.7rem] leading-[1.1] tracking-[-0.02em] sm:text-3xl lg:text-[2.2rem]">
             <span className="block font-light text-white/80">De emprendedora</span>
             <span className="block font-semibold text-accent">a empresaria.</span>
@@ -204,15 +204,7 @@ export function Formas() {
       </div>
 
       <div className={`${container} relative py-20 lg:hidden`}>
-        <div className="flex flex-col items-center text-center">
-          <Eyebrow>Servicios</Eyebrow>
-          <h2 className="mt-4 text-3xl leading-tight tracking-[-0.02em] sm:text-4xl">
-            <span className="font-semibold">Tres formas</span>{" "}
-            <span className="font-light text-soft">de trabajar con Shake</span>
-          </h2>
-        </div>
-
-        <div className="mx-auto mt-10 grid max-w-sm gap-8 md:max-w-none md:grid-cols-3">
+        <div className="mx-auto grid max-w-sm gap-8 md:max-w-none md:grid-cols-3">
           {formas.map((f) => (
             <a key={f.title} {...linkProps(f)} className="card-glass group flex flex-col">
               <div className="relative aspect-[4/5] w-full overflow-hidden rounded-t-[20px]">
@@ -238,9 +230,6 @@ export function Formas() {
           ))}
         </div>
 
-        <p className="mt-10 text-center text-[11px] font-medium tracking-[0.14em] text-muted uppercase">
-          Mentalidad · Marca · Estrategia · Ventas · Crecimiento
-        </p>
       </div>
 
       {/* desktop: tres paneles a pantalla completa, 33,3% cada uno, video de fondo e info encima */}
@@ -262,9 +251,9 @@ export function Formas() {
             {/* velo: oscuro abajo para la info, suave arriba para el título */}
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(0deg,rgb(20_19_17_/_0.95)_0%,rgb(20_19_17_/_0.7)_30%,rgb(20_19_17_/_0.1)_58%,rgb(20_19_17_/_0.55)_100%)] transition duration-700 group-hover:opacity-85" />
 
-            <div className="relative px-[clamp(1.5rem,3vw,3.5rem)] pb-[clamp(2rem,6vh,4.5rem)]">
+            <div className="relative px-12 pb-14">
               <IconTile name={f.icon} className="mb-5" />
-              <h3 className="text-[clamp(1.7rem,2.2vw,2.6rem)] leading-[1.05] font-semibold tracking-[-0.02em] text-white">
+              <h3 className="text-[2.2rem] leading-[1.05] font-semibold tracking-[-0.02em] text-white">
                 {f.title}
               </h3>
               <p className="mt-2 text-[11px] font-medium tracking-[0.14em] text-accent uppercase">
@@ -277,17 +266,6 @@ export function Formas() {
           </a>
         ))}
 
-        {/* título flotando arriba, sobre los tres videos */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 flex flex-col items-center pt-24 text-center text-white">
-          <Eyebrow dark>Servicios</Eyebrow>
-          <h2 className="mt-3 text-3xl tracking-[-0.02em]">
-            <span className="font-semibold">Tres formas</span>{" "}
-            <span className="font-light text-white/55">de trabajar con Shake</span>
-          </h2>
-          <p className="mt-2 text-[11px] font-medium tracking-[0.14em] text-white/60 uppercase">
-            Mentalidad · Marca · Estrategia · Ventas · Crecimiento
-          </p>
-        </div>
       </div>
     </Section>
   );
@@ -312,15 +290,14 @@ const pilares: { icon: IconName; title: string; text: string }[] = [
   },
 ];
 
-const pasosFlujo = ["Destrabar", "Ordenar", "Accionar", "Crecer"];
-
 export function Metodo() {
   return (
     <Section id="metodo" className="bg-cream-gradient">
       <div className="flex min-h-svh w-full flex-col">
         <div className="grid flex-1 lg:grid-cols-[46%_54%]">
-          {/* el video es protagonista: media pantalla, como tarjeta dentro del marco beige */}
-          <div className="relative h-[62svh] overflow-hidden rounded-b-[26px] lg:m-[7px] lg:mr-0 lg:h-auto lg:rounded-[24px]">
+          {/* el video es protagonista: media pantalla, como tarjeta que arranca debajo del menú fijo,
+              con el mismo aire arriba, abajo y al costado */}
+          <div data-reveal className="relative mx-3 mt-[calc(3.5rem+12px)] h-[58svh] overflow-hidden rounded-[22px] lg:mt-[calc(4rem+16px)] lg:mr-0 lg:mb-4 lg:ml-4 lg:h-auto lg:rounded-[24px]">
             <AutoVideo
               src="/images/empresaria.mp4"
               poster="/images/empresaria-poster.jpg"
@@ -340,10 +317,10 @@ export function Metodo() {
             <Eyebrow>Propuesta de valor / Método</Eyebrow>
 
             <h2 className="mt-6 leading-[0.98] tracking-[-0.035em]">
-              <span className="block text-[clamp(2.2rem,9vw,5rem)] font-light text-soft lg:text-[clamp(2.6rem,4.4vw,5.2rem)]">
+              <span className="block text-[2.4rem] font-light text-soft sm:text-6xl lg:text-[4.5rem]">
                 De emprendedora
               </span>
-              <span className="block text-[clamp(2.2rem,9vw,5rem)] font-semibold text-ink lg:text-[clamp(2.6rem,4.4vw,5.2rem)]">
+              <span className="block text-[2.4rem] font-semibold text-ink sm:text-6xl lg:text-[4.5rem]">
                 a empresaria
               </span>
             </h2>
@@ -372,83 +349,8 @@ export function Metodo() {
           </div>
         </div>
 
-        {/* cinta en movimiento con el recorrido del método */}
-        <div className="relative overflow-hidden bg-accent py-4 text-ink lg:py-5">
-          <div className="marquee flex w-max text-2xl font-semibold tracking-[0.06em] whitespace-nowrap uppercase lg:text-3xl">
-            {[0, 1].map((copy) => (
-              <span key={copy} aria-hidden={copy === 1} className="flex gap-10 pr-10">
-                {Array.from({ length: 3 }).flatMap((_, k) =>
-                  pasosFlujo.map((paso) => (
-                    <span key={`${k}-${paso}`} className="flex items-center gap-10">
-                      {paso}
-                      <span className="size-2.5 bg-ink" />
-                    </span>
-                  )),
-                )}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-    </Section>
-  );
-}
-
-/* 4 · Autoridad / Impacto */
-const stats = [
-  { value: "+7.000", label: "Servicios vendidos" },
-  { value: "+20", label: "Puestos de trabajo generados" },
-  { value: "+12", unit: "años", label: "Emprendiendo y construyendo negocios" },
-  { value: "6", unit: "proyectos", label: "Creados, desarrollados o potenciados" },
-];
-
-export function Autoridad() {
-  return (
-    <Section id="autoridad" className="bg-cream-gradient">
-      <div className={`${container} flex flex-col pt-24 pb-16 lg:pt-24 lg:pb-14`}>
-        <Eyebrow>Autoridad / Impacto</Eyebrow>
-        <h2 className="mt-5 max-w-4xl text-[2.1rem] leading-[1.08] tracking-[-0.03em] sm:text-5xl lg:text-[3.6rem]">
-          <span className="font-semibold text-ink">Resultados que respaldan</span>{" "}
-          <span className="font-light text-soft">mi experiencia</span>
-        </h2>
-
-        {/* cifras como en una ficha: número grande, línea punteada y etiqueta */}
-        <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-10 lg:mt-16 lg:grid-cols-4 lg:gap-x-10">
-          {stats.map((s) => (
-            <div key={s.value}>
-              <p className="leading-none whitespace-nowrap text-ink">
-                <span className="text-[2.2rem] font-medium tracking-[-0.04em] sm:text-5xl xl:text-[3.6rem]">
-                  {s.value}
-                </span>
-                {s.unit && (
-                  <span className="ml-1.5 text-lg font-light tracking-[-0.02em] text-soft sm:text-2xl">
-                    {s.unit}
-                  </span>
-                )}
-              </p>
-              <span className="mt-5 block border-t border-dashed border-ink/30" />
-              <p className="mt-3 max-w-[14rem] text-[13px] leading-snug font-medium text-ink/80">
-                {s.label}
-              </p>
-            </div>
-          ))}
-        </div>
-
-        {/* cita con aire */}
-        <figure className="mt-16 flex max-w-3xl gap-5 lg:mt-20">
-          <span className="text-6xl leading-[0.8] font-bold text-accent">“</span>
-          <div>
-            <blockquote className="text-[1.3rem] leading-snug tracking-[-0.01em] sm:text-2xl lg:text-[1.8rem]">
-              <span className="font-light text-ink/70">No enseño solamente lo que estudié.</span>{" "}
-              <span className="font-semibold text-ink">
-                Enseño lo que tuve que construir, ejecutar, vender y sostener.
-              </span>
-            </blockquote>
-            <figcaption className="mt-5 text-[11px] font-medium tracking-[0.14em] text-muted uppercase">
-              Shake Gasko Oriz
-            </figcaption>
-          </div>
-        </figure>
+        {/* recorrido del método: línea fina que se dibuja y enciende cada paso */}
+        <Recorrido />
       </div>
     </Section>
   );
@@ -504,8 +406,8 @@ export function Negocios() {
     <Section id="negocios" className="frame-y bg-ink-gradient text-white">
       {/* título arriba y debajo los negocios en vertical (9:16, el formato de los videos):
           2 columnas en mobile, 3 en tablet, una fila de 6 en desktop */}
-      <div className="flex min-h-[calc(100svh-8px)] w-full flex-col justify-center md:min-h-[calc(100svh-14px)]">
-        <div className="flex flex-col items-center px-5 pt-24 pb-8 text-center lg:pt-20 lg:pb-10">
+      <div className="flex min-h-[calc(100svh-var(--frame-y))] w-full flex-col justify-center">
+        <div className="flex flex-col items-center px-5 pt-10 pb-8 text-center lg:pt-10 lg:pb-10">
           <Eyebrow dark>CEO de negocios y co-equiper</Eyebrow>
           <h2 className="mt-4 text-3xl leading-tight tracking-[-0.03em] sm:text-4xl lg:text-5xl">
             <span className="font-semibold">Negocios que construí,</span>{" "}
@@ -633,7 +535,7 @@ export function QuienEs() {
 export function CtaFinal() {
   return (
     <Section id="contacto" className="frame bg-ink-gradient text-white">
-      <div className="mx-auto flex min-h-[calc(100svh-8px)] w-full max-w-3xl flex-col items-center justify-center px-5 pt-24 pb-12 text-center md:min-h-[calc(100svh-14px)]">
+      <div className="mx-auto flex min-h-[calc(100svh-var(--frame-y))] w-full max-w-3xl flex-col items-center justify-center px-5 pt-12 pb-12 text-center">
         <Eyebrow dark>Trabajemos juntos</Eyebrow>
 
         <h2 className="mt-8 text-[2.1rem] leading-[1.08] tracking-[-0.03em] sm:text-5xl lg:text-[3.6rem]">
@@ -657,11 +559,11 @@ export function CtaFinal() {
   );
 }
 
-/* pie: crédito del desarrollo en negro sobre el beige */
+/* pie: crédito del desarrollo, fijo abajo y siempre visible, en una franja glass clara */
 export function Footer() {
   return (
-    <footer className="px-5 pt-2 pb-5 text-center text-[11px] leading-relaxed text-black">
-      Desarrollado por Braian Yamil Barrientos · Ing. en Sistemas · MAT. 124335/A
+    <footer className="fixed inset-x-0 bottom-0 z-40 flex h-(--footer-h) items-center justify-center border-t border-black/5 bg-paper/80 px-4 text-center text-[11px] leading-snug text-black backdrop-blur-md sm:text-[13px]">
+      Desarrollado por Braian Yamil Barrientos · Desarrollador de Software · MAT. 124335/A
     </footer>
   );
 }

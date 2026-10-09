@@ -1,5 +1,6 @@
+import { Autoridad } from "@/components/Autoridad";
+import { SectionReveal } from "@/components/SectionReveal";
 import {
-  Autoridad,
   CtaFinal,
   Footer,
   Formas,
@@ -45,6 +46,7 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
       />
+      <SectionReveal />
       <Nav />
       <Hero />
       <Formas />

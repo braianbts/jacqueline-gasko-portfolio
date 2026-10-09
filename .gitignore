@@ -42,3 +42,6 @@ next-env.d.ts
 
 # material original pesado (no se publica)
 /originales
+
+# configuración local de Claude
+/.claude

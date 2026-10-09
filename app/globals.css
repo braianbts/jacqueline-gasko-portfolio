@@ -3,13 +3,13 @@
 /* Sistema: beige crudo + negro + acento amarillo vintage. Todo en Poppins. */
 @theme inline {
   --color-ink: #141311;
-  --color-muted: #6f695f;
-  --color-soft: #a39b8e; /* parte secundaria de los títulos (gris cálido) */
-  --color-paper: #efe8dc; /* beige crudo: fondo de la página y del marco */
-  --color-sand: #e5dccc;
-  --color-line: #d6cbb8;
-  --color-accent: #e2ae3e; /* amarillo mostaza vintage */
-  --color-accent-dark: #b4851f;
+  --color-muted: #6b6b68;
+  --color-soft: #a3a3a0; /* parte secundaria de los títulos (gris neutro) */
+  --color-paper: #fbf9f5; /* beige casi blanco: fondo de la página y del marco */
+  --color-sand: #f1ede6;
+  --color-line: #e0d9cc;
+  --color-accent: #fef102; /* amarillo limón intenso */
+  --color-accent-dark: #6f6500; /* versión oscura para texto sobre beige */
 
   --font-sans: var(--font-poppins);
 }
@@ -32,26 +32,48 @@ body {
   font-family: var(--font-sans), system-ui, sans-serif;
 }
 
-/* marco beige: las secciones oscuras quedan como tarjetas redondeadas dentro de la
-   página, el borde es del mismo color del fondo y "conecta" todo. Usable con variantes (lg:frame) */
-@utility frame {
-  border: 4px solid var(--color-paper);
-  border-radius: 24px;
+/* medidas compartidas: alto del menú fijo y grosor del marco beige.
+   --frame-top deja la tarjeta oscura debajo del menú con la misma franja beige que a los costados */
+:root {
+  --nav-h: 56px;
+  --footer-h: 44px; /* franja fija del crédito (dos líneas en mobile) */
+  --frame: 4px;
+  --radio: 20px; /* radio interior de las tarjetas oscuras */
+  --frame-top: calc(var(--nav-h) + var(--frame));
+  --frame-bottom: calc(var(--footer-h) + var(--frame));
+  --frame-y: calc(var(--frame-top) + var(--frame-bottom)); /* alto que ocupa el marco */
+}
 
-  @media (min-width: 768px) {
-    border-width: 7px;
-    border-radius: 30px;
+@media (min-width: 768px) {
+  :root {
+    --nav-h: 64px;
+    --footer-h: 34px;
+    --frame: 7px;
+    --radio: 23px;
   }
 }
 
-/* variante sin bordes laterales: la sección llega de borde a borde y solo
-   conserva la franja beige arriba y abajo */
-@utility frame-y {
-  border-block: 4px solid var(--color-paper);
+/* marco beige: las secciones oscuras quedan como tarjetas redondeadas dentro de la página,
+   el borde es del mismo color del fondo y "conecta" todo. Arriba es más grueso para que la
+   tarjeta empiece debajo del menú, y abajo para que termine arriba del crédito fijo. Las
+   esquinas son elípticas por fuera (no se ven, son del color del fondo) para que por dentro
+   queden redondeadas parejas */
+@utility frame {
+  border-style: solid;
+  border-color: var(--color-paper);
+  border-width: var(--frame-top) var(--frame) var(--frame-bottom);
+  border-top-left-radius: calc(var(--radio) + var(--frame)) calc(var(--radio) + var(--frame-top));
+  border-top-right-radius: calc(var(--radio) + var(--frame)) calc(var(--radio) + var(--frame-top));
+  border-bottom-left-radius: calc(var(--radio) + var(--frame)) calc(var(--radio) + var(--frame-bottom));
+  border-bottom-right-radius: calc(var(--radio) + var(--frame)) calc(var(--radio) + var(--frame-bottom));
+}
 
-  @media (min-width: 768px) {
-    border-block-width: 7px;
-  }
+/* variante sin bordes laterales: la sección llega de borde a borde y solo
+   conserva la franja beige arriba (debajo del menú) y abajo */
+@utility frame-y {
+  border-style: solid;
+  border-color: var(--color-paper);
+  border-width: var(--frame-top) 0 var(--frame-bottom);
 }
 
 @layer components {
@@ -64,8 +86,8 @@ body {
       radial-gradient(circle, rgb(20 19 17 / 0.07) 1px, transparent 1.6px),
       radial-gradient(circle, rgb(20 19 17 / 0.045) 1.4px, transparent 2px),
       radial-gradient(ellipse 55% 45% at 85% 5%, rgb(255 255 255 / 0.55), transparent 70%),
-      radial-gradient(ellipse 50% 50% at 0% 100%, rgb(120 105 80 / 0.12), transparent 70%),
-      linear-gradient(160deg, #f5f0e7 0%, #efe8dc 50%, #e3d9c8 100%);
+      radial-gradient(ellipse 50% 50% at 0% 100%, rgb(120 105 80 / 0.08), transparent 70%),
+      linear-gradient(160deg, #fefdfb 0%, #fbf9f5 50%, #f2eee6 100%);
     background-size: 16px 16px, 42px 42px, auto, auto, auto;
     background-position: 0 0, 21px 21px, 0 0, 0 0, 0 0;
   }
@@ -90,7 +112,7 @@ body {
 
   .btn-accent:hover {
     transform: translateY(-2px);
-    background: #ebbd55;
+    background: #f2e400;
   }
 
   /* tarjeta glass: el borde brilla en blanco arriba y abajo y se apaga en los costados */
@@ -237,20 +259,26 @@ body {
   animation: scroll-cue 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
 }
 
-/* cinta que corre en loop: el contenido va duplicado y se desplaza la mitad */
-@keyframes marquee {
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-.marquee {
-  animation: marquee 35s linear infinite;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .scroll-cue-dot,
-  .marquee {
+  .scroll-cue-dot {
     animation: none;
   }
+}
+
+/* aparición escalonada por sección (la activa components/SectionReveal.tsx).
+   Solo el estado oculto declara transform/filter: así, ya visibles, los elementos conservan
+   sus propios efectos (por ejemplo el hover de las tarjetas) */
+.reveal-ready [data-r] {
+  transition:
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0ms),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0ms),
+    filter 0.8s ease var(--d, 0ms);
+}
+
+.reveal-ready section:not(.revealed) [data-r] {
+  opacity: 0;
+  transform: translateY(28px);
+  filter: blur(6px);
+  transition-delay: 0ms;
+  transition-duration: 0.2s;
 }
